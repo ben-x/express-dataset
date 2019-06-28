@@ -17,7 +17,9 @@
         <entry file="file://$PROJECT_DIR$/readme.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="-2957" />
+              <first_editor relative-caret-position="371">
+                <caret line="610" column="91" selection-start-line="610" selection-start-column="91" selection-end-line="610" selection-end-column="91" />
+              </first_editor>
               <second_editor />
             </state>
           </provider>
@@ -27,6 +29,13 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/readme.md" />
+      </list>
+    </option>
   </component>
   <component name="ProjectConfigurationFiles">
     <option name="files">
@@ -92,12 +101,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1561547222108</updated>
-      <workItem from="1561547223519" duration="259000" />
+      <workItem from="1561547223519" duration="577000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="259000" />
+    <option name="totallyTimeSpent" value="577000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
@@ -129,7 +138,9 @@
     <entry file="file://$PROJECT_DIR$/readme.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="-2957" />
+          <first_editor relative-caret-position="371">
+            <caret line="610" column="91" selection-start-line="610" selection-start-column="91" selection-end-line="610" selection-end-column="91" />
+          </first_editor>
           <second_editor />
         </state>
       </provider>

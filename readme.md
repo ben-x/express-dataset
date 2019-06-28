@@ -88,7 +88,7 @@
 
 <p>&nbsp;</p>
 
-<p>You should complete the given incomplete project so that it passes all the test cases when running the provided unit tests. The project by default supports the use of SQLite3 database.</p>
+<p>You should complete the given incomplete project so that it passes all the test cases when running the provided unit tests. The project by default supports the use of SQLite3 database but you also use NeDB. These two are the only accepted database</p>
 
 <p>&nbsp;</p>
 
