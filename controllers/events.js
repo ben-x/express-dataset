@@ -1,10 +1,12 @@
+var db = require('../helpers/db');
 
 var getAllEvents = () => {
-
+	var allEvents = db.viewAllEvents();
+	console.log('ALL EVENTS', allEvents);
 };
 
 var addEvent = () => {
-
+	const createEvent = db.createEvent()
 };
 
 
