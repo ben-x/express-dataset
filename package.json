@@ -5,10 +5,21 @@
   "scripts": {
     "prestart": "npm install",
     "start": "node ./bin/www",
+    "dev": "nodemon --exec babel-node app.js",
     "pretest": "npm install",
-    "test": "./node_modules/.bin/mocha test"
+    "test": "./node_modules/.bin/mocha test",
+    "migrate": "sequelize db:migrate",
+    "seed": "sequelize db:seed:all",
+    "undo:migrate": "sequelize db:migrate:undo:all"
   },
   "dependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "@babel/polyfill": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/register": "^7.4.0",
+    "bluebird": "^3.5.0",
     "body-parser": "~1.17.1",
     "chai": "^4.1.1",
     "chai-as-promised": "^7.1.1",
@@ -23,8 +34,12 @@
     "mocha-junit-reporter": "^1.13.0",
     "mocha-multi-reporters": "^1.1.4",
     "morgan": "~1.8.1",
+    "sequelize": "^5.19.0",
+    "sequelize-cli": "^5.5.1",
     "serve-favicon": "~2.4.2",
-    "sqlite3": "^3.1.9",
-    "bluebird": "^3.5.0"
+    "sqlite3": "^4.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
   }
 }

@@ -48,4 +48,12 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+const port  = 5111;
+
+// finally, let's start our server...
+const server = app.listen(port, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Listening on port ${server.address().port}`);
+});
+
 module.exports = app;
