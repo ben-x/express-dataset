@@ -17,20 +17,3 @@ module.exports = {
 	getAllActors: getAllActors,
 	getStreak: getStreak
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
