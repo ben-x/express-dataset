@@ -1,3 +1,7 @@
+const db = require("../models");
+
+const {Actor} = db;
+
 
 var getAllActors = () => {
 	
@@ -13,9 +17,9 @@ var getStreak = () => {
 
 
 module.exports = {
-	updateActor: updateActor,
-	getAllActors: getAllActors,
-	getStreak: getStreak
+	updateActor,
+	getAllActors,
+	getStreak
 };
 
 
