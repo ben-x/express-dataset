@@ -6,5 +6,6 @@ var router = express.Router();
 
 // Routes related to event
 router.post('/', Validation.eventInputValidator, Auth.verifyToken, Events.addEvent)
+router.get('/', Events.getAllEvents);
 
 module.exports = router;
