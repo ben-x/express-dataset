@@ -44,7 +44,15 @@ var getAllActors = () => {
 	
 };
 
-var updateActor = () => {
+var updateActorAvatarUrl = (req, res) => {
+	try {
+		Models.actors.update({ _id: req.params.id }, { $set: { system: req.body.avatar_url } }, { multi: true }, (err, newlyUpdatedAvatarUrl) => {
+			res.status(200).send({ message: 'Avatar Url updated' });
+			return newlyUpdatedAvatarUrl;
+		  });
+	} catch (error) {
+		res.status(500).send({ message: 'Something went wrong' });
+	}
 
 };
 
@@ -56,7 +64,7 @@ var getStreak = () => {
 module.exports = {
 	createActor: createActor,
 	signIn: signIn,
-	updateActor: updateActor,
+	updateActorAvatarUrl: updateActorAvatarUrl,
 	getAllActors: getAllActors,
 	getStreak: getStreak
 };
