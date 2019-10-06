@@ -51,8 +51,14 @@ const getByActor = (req, res) => {
 	}
 };
 
-const eraseEvents = () => {
-
+const eraseEvents = (req, res) => {
+	try {
+		Models.events.remove({}, { multi: true }, (err, numRemoved) => {
+			res.status(200).send({ message: `${numRemoved} events deleted!` })
+		});
+	} catch (error) {
+		res.status(500).send({ message: 'Something went wrong' })
+	}
 };
 
 module.exports = {
