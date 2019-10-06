@@ -1,12 +1,15 @@
 const Models = require('../database/database');
-const Helpers = require('../helpers/auth')
+const Helpers = require('../helpers/auth');
+const Utils = require('../helpers/sortByEventCount');
 
-var createActor = (req, res) => {
+const createActor = (req, res) => {
    const actor = {
 	  name: req.body.name,
 	  email: req.body.email,
 	  avatar_url: 'default_avatar_url',
 	  password: Helpers.hashPassword(req.body.password),
+	  events: 0,
+	  streaks: 0,
    }
    try {
 	Models.actors.insert(actor, function (err, newlyCreatedActor) {
@@ -20,7 +23,7 @@ var createActor = (req, res) => {
    }
 };
 
-var signIn = (req, res) => {
+const signIn = (req, res) => {
 	try {
 		Models.actors.findOne({ email: req.body.email }, function (err, actor) {
 		  if(!actor) {
@@ -40,13 +43,13 @@ var signIn = (req, res) => {
 	  }
 };
 
-var getAllActors = () => {
+const getAllActors = () => {
 	
 };
 
-var updateActorAvatarUrl = (req, res) => {
+const updateActorAvatarUrl = (req, res) => {
 	try {
-		Models.actors.update({ _id: req.params.id }, { $set: { system: req.body.avatar_url } }, { multi: true }, (err, newlyUpdatedAvatarUrl) => {
+		Models.actors.update({ _id: req.params.id }, { $set: { avatar_url: req.body.avatar_url } }, { multi: true }, (err, newlyUpdatedAvatarUrl) => {
 			res.status(200).send({ message: 'Avatar Url updated' });
 			return newlyUpdatedAvatarUrl;
 		  });
@@ -56,7 +59,19 @@ var updateActorAvatarUrl = (req, res) => {
 
 };
 
-var getStreak = () => {
+const getActorsByEventCount = (req, res) => {
+	try {
+		Models.actors.find({}, (err, actors) => {
+		  Utils.sortByEventCount(actors) 
+		  res.status(200).json(actors);
+		  });
+	  } catch (error) {
+		  res.status(500).send({ message: 'Something went wrong' })
+	  }
+};
+
+
+const getStreak = () => {
 
 };
 
@@ -66,7 +81,8 @@ module.exports = {
 	signIn: signIn,
 	updateActorAvatarUrl: updateActorAvatarUrl,
 	getAllActors: getAllActors,
-	getStreak: getStreak
+	getStreak: getStreak,
+	getActorsByEventCount: getActorsByEventCount
 };
 
 

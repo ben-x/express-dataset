@@ -1,10 +1,11 @@
 const moment = require('moment');
 const Models = require('../database/database');
 const Utils = require('../helpers/sortById');
+const updater = require('../helpers/updateEventCount');
 
-var getAllEvents = (req, res) => {
+const getAllEvents = (req, res) => {
 	try {
-	  Models.events.find({}, function (err, events) {
+	  Models.events.find({}, (err, events) => {
 		Utils.sortById(events) 
 		res.status(200).json(events);
 		});
@@ -13,7 +14,7 @@ var getAllEvents = (req, res) => {
 	}
 };
 
-var addEvent = (req, res) => {
+const addEvent = (req, res) => {
 	const event = {
 		type: 'Push Event',
 		actor: {
@@ -29,7 +30,8 @@ var addEvent = (req, res) => {
 		create_at: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
 	}
 	try {
-		Models.events.insert(event, (err, newlyCreatedEvent) => {   
+		Models.events.insert(event, (err, newlyCreatedEvent) => { 
+			updater.updateEventCount(req.user.userId)  
 			res.status(201).json(newlyCreatedEvent);
 		});
 	} catch (error) {
@@ -39,7 +41,7 @@ var addEvent = (req, res) => {
 };
 
 
-var getByActor = (req, res) => {
+const getByActor = (req, res) => {
 	try {
 		Models.events.find({ 'actor.id': req.params.id }, (err, events) => {
 			res.status(200).send(events)
@@ -49,8 +51,7 @@ var getByActor = (req, res) => {
 	}
 };
 
-
-var eraseEvents = () => {
+const eraseEvents = () => {
 
 };
 
@@ -58,7 +59,7 @@ module.exports = {
 	getAllEvents: getAllEvents,
 	addEvent: addEvent,
 	getByActor: getByActor,
-	eraseEvents: eraseEvents
+	eraseEvents: eraseEvents,
 };
 
 
