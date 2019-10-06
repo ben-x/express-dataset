@@ -2,7 +2,7 @@ const Models = require('../database/database');
 
 const checkEmail = (req, res, next) => {
   try {
-    Models.actors.findOne({ email: req.body.email }, function (err, actor) {
+    Models.actors.findOne({ email: req.body.email }, (err, actor) => {
       if(actor) {
         res.status(400).send({ message: 'This user id exists' })
       } else {
