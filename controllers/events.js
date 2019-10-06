@@ -1,8 +1,16 @@
 const moment = require('moment');
 const Models = require('../database/database');
+const Utils = require('../helpers/sortById');
 
-var getAllEvents = () => {
-	
+var getAllEvents = (req, res) => {
+	try {
+	  Models.events.find({}, function (err, events) {
+		Utils.sortById(events) 
+		res.status(200).json(events);
+		});
+	} catch (error) {
+		res.status(500).send({ message: 'Something went wrong' })
+	}
 };
 
 var addEvent = (req, res) => {
