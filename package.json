@@ -7,7 +7,7 @@
     "start": "node ./bin/www",
     "pretest": "npm install",
     "test": "./node_modules/.bin/mocha test",
-    "fireapp": "node app.js"
+    "launchapp": "node app.js"
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
