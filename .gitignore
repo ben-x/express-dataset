@@ -226,3 +226,6 @@ pickle-email-*.html
 
 # Ignore node_modules
 node_modules/
+
+#Ignore Seeders
+seeders/
