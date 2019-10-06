@@ -11,7 +11,7 @@ var createActor = (req, res) => {
    try {
 	Models.actors.insert(actor, function (err, newlyCreatedActor) {
 		delete newlyCreatedActor.password;
-		const token = Helpers.generateToken(newlyCreatedActor._id, newlyCreatedActor.email)
+		const token = Helpers.generateToken(newlyCreatedActor._id, newlyCreatedActor.email, newlyCreatedActor.avatar_url)
 		newlyCreatedActor.token = token;   
 		res.status(201).json(newlyCreatedActor);
 	});
@@ -30,7 +30,7 @@ var signIn = (req, res) => {
 		  } else {
 			delete actor.password;
 			actor.login = actor.email
-			const token = Helpers.generateToken(actor._id, actor.email)
+			const token = Helpers.generateToken(actor._id, actor.email, actor.avatar_url);
 			actor.token = token;
 			res.status(200).json(actor);
 		  }

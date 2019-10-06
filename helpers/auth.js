@@ -7,9 +7,9 @@ const hashPassword = (password) => {
 const comparePassword = (hashPassword, password) =>{
     return bcrypt.compareSync(password, hashPassword);
   };
-const generateToken = (id, email) => {
+const generateToken = (id, email, avatar_url) => {
     const token = jwt.sign({
-      userId: id, email,
+      userId: id, email, avatar_url
     },
     process.env.SECRET, { expiresIn: '45m' });
     return token;
