@@ -33,14 +33,20 @@ var addEvent = (req, res) => {
 			res.status(201).json(newlyCreatedEvent);
 		});
 	} catch (error) {
-		res.status(500).send({ message: 'Something went wrong' })
+		res.status(500).send({ message: 'Something went wrong' });
 	}
 
 };
 
 
-var getByActor = () => {
-
+var getByActor = (req, res) => {
+	try {
+		Models.events.find({ 'actor.id': req.params.id }, (err, events) => {
+			res.status(200).send(events)
+		  });
+	} catch (error) {
+		res.status(500).json({ message: 'Something went wrong' });
+	}
 };
 
 
