@@ -4,6 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+require('dotenv').config()
+
 
 var index = require('./routes/index');
 var eraseEvents = require('./routes/eraseEvents');
@@ -47,5 +49,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Can you see me at Port ${port}?`));
 module.exports = app;
