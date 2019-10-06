@@ -4,12 +4,10 @@ const SECRET = process.env.SECRET;
 
 var verifyToken = (req, res, next) => {
     try {
-        const bearer = req.headers.authorization;
-        if (!bearer) {
+        const token = req.headers['x-access-token'];
+        if (!token) {
           res.status(401).send({ message: 'No token provided' });
         }
-  
-        const token = bearer.split(' ')[1];
         
         jwt.verify(token, SECRET, (err, decoded) => {
           if (err) {
