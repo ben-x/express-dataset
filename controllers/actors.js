@@ -1,6 +1,7 @@
 const Models = require('../database/database');
 const Helpers = require('../helpers/auth');
 const Utils = require('../helpers/sortByEventCount');
+const anotherUtils = require('../helpers/sortByStreak');
 
 const createActor = (req, res) => {
    const actor = {
@@ -71,8 +72,15 @@ const getActorsByEventCount = (req, res) => {
 };
 
 
-const getStreak = () => {
-
+const getStreaks = (req, res) => {
+    try {
+		Models.actors.find({}, (err, actors) => {
+		  anotherUtils.sortByStreak(actors) 
+		  res.status(200).json(actors);
+		  });
+	  } catch (error) {
+		  res.status(500).send({ message: 'Something went wrong' })
+	  }
 };
 
 
@@ -81,7 +89,7 @@ module.exports = {
 	signIn: signIn,
 	updateActorAvatarUrl: updateActorAvatarUrl,
 	getAllActors: getAllActors,
-	getStreak: getStreak,
+	getStreaks: getStreaks,
 	getActorsByEventCount: getActorsByEventCount
 };
 

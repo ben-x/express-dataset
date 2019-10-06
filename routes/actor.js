@@ -13,4 +13,5 @@ router.post('/signup', Validator.actorInputValidator, Actor.checkEmail, Actors.c
 router.post('/signin', Validator.actorInputValidator, Actors.signIn);
 router.put('/:id', Auth.verifyToken, ActorExistence.checkActor, Identity.checkIfOwner, urlValidator.avatarUrlValidator, Actors.updateActorAvatarUrl);
 router.get('/', Actors.getActorsByEventCount);
+router.get('/streak', Actors.getStreaks);
 module.exports = router;
