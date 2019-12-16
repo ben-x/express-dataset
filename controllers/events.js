@@ -32,9 +32,9 @@ const addEvent = async (req, res, next)=>{
 			 
 			/** Else add Event to database */
 			await db.run( `INSERT INTO events (id, type, actorID, login, avatar_url, repoID, name, url, updated_at)
-			 VALUES(?), ['req.params.id', 'req.params.type', 'req.params.actor.id',
-			'req.params.actor.login', 'req.params.actor.avatar_url', 'req.params.repo.id', 'req.params.repo.name',
-			'req.params.repo.url', 'time']`, (err)=>{
+			 VALUES(?), ['req.body.id', 'req.body.type', 'req.body.actor.id',
+			'req.body.actor.login', 'req.body.actor.avatar_url', 'req.body.repo.id', 'req.body.repo.name',
+			'req.body.repo.url', 'time']`, (err)=>{
 				if(err){
 					return res.status(404).json({
 						error: err.message
