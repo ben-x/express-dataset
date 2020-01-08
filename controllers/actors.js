@@ -2,10 +2,11 @@ const db = require('../db/index');
 
 // get all actors from the database
 var getAllActors = (req, res) => {
-	const query = `SELECT * FROM actors`;
+	const query = `SELECT DISTINCT actors.id, actors.login, actors.avatar_url, COUNT() FROM actors INNER JOIN events ON events.actor_id = actors.id GROUP BY actors.id HAVING COUNT() >= 1 ORDER BY COUNT() DESC, events.created_at DESC, actors.login ASC`;
 	db.serialize(() => {
 		db.all(query, (err, rows) => {
 			if (err) {
+				console.log(err)
 				return res.status(500).send({
 					error: true,
 					message: 'Network error, please try again later',
