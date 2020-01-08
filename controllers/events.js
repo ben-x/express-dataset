@@ -73,8 +73,22 @@ var getByActor = (req, res) => {
 };
 
 
-var eraseEvents = () => {
+var eraseEvents = (req, res) => {
+	const deleteQuery = `DELETE FROM events`;
+	db.run(deleteQuery, (err) => {
+		if (err) {
+			console.log(err)
+			return res.status(500).send({
+				error: true,
+				message: 'Network error, please try again later'
+			});
+		}
 
+		return res.status(200).send({
+			error: false,
+			message: 'Records have been erased successfully'
+		});
+	});
 };
 
 module.exports = {
