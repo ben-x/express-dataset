@@ -45,8 +45,31 @@ var addEvent = (req, res) => {
 };
 
 
-var getByActor = () => {
+var getByActor = (req, res) => {
+	const { id } = req.params;
 
+	const actorEventsQuery = `SELECT * FROM events WHERE actor_id = ? ORDER BY events.id ASC`;
+
+	db.all(actorEventsQuery, [parseInt(id, 10)], (err, rows) => {
+		if (err) {
+			return res.status(500).send({
+				error: true,
+				message: 'Network error, please try again later'
+			});
+		}
+
+		if (rows.length === 0) {
+			return res.status(404).send({
+				error: true,
+				message: 'Events not found'
+			})
+		}
+		return res.status(200).send({
+			error: false,
+			message: 'Actor\'s events',
+			data: rows
+		})
+	})
 };
 
 
