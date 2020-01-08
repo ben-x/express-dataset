@@ -65,7 +65,6 @@ var updateActor = (req, res) => {
 				return
 			}
 			if (err) {
-				console.log(err)
 				return res.status(500).send({
 					error: true,
 					message: 'Network error, please try again later'
@@ -79,8 +78,24 @@ var updateActor = (req, res) => {
 	})
 };
 
-var getStreak = () => {
-
+var getStreak = (req, res) => {
+	const query = `SELECT DISTINCT actors.id, actors.login, actors.avatar_url, COUNT() FROM actors INNER JOIN events ON events.actor_id = actors.id GROUP BY actors.id HAVING COUNT() >= 1 ORDER BY COUNT() DESC, events.created_at DESC, actors.login ASC`;
+	db.serialize(() => {
+		db.all(query, (err, rows) => {
+			if (err) {
+				console.log(err)
+				return res.status(500).send({
+					error: true,
+					message: 'Network error, please try again later',
+				});
+			}
+			return res.status(200).send({
+				error: false,
+				message: 'Actors streak',
+				data: rows
+			});
+		})
+	})
 };
 
 
