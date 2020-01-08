@@ -1,5 +1,6 @@
 const db = require('../db/index');
 
+// Get all events and sort it by the event id in ascending order
 const getAllEvents = (req, res) => {
 	const getEventsQuery = `SELECT *, events.id FROM events LEFT JOIN actors ON actors.id = events.actor_id LEFT JOIN repos ON repos.id = events.repo_id ORDER BY events.id ASC`
 	db.all(getEventsQuery, (err, rows) => {
@@ -17,6 +18,7 @@ const getAllEvents = (req, res) => {
 	})
 };
 
+// Create a new event
 const addEvent = (req, res) => {
 	const { type, actor_id, repo_id } = req.body;
 
@@ -44,7 +46,7 @@ const addEvent = (req, res) => {
 	})
 };
 
-
+// Get events by actor who created the event
 const getByActor = (req, res) => {
 	const { id } = req.params;
 
@@ -72,7 +74,7 @@ const getByActor = (req, res) => {
 	})
 };
 
-
+// Erase the entirety of all database events
 const eraseEvents = (req, res) => {
 	const deleteQuery = `DELETE FROM events`;
 	db.run(deleteQuery, (err) => {
