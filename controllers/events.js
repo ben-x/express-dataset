@@ -86,7 +86,7 @@ var eraseEvents = (req, res) => {
 
 		return res.status(200).send({
 			error: false,
-			message: 'Records have been erased successfully'
+			message: 'Events have been erased successfully'
 		});
 	});
 };
