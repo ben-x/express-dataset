@@ -1,6 +1,6 @@
 const db = require('../db/index');
 
-var getAllEvents = (req, res) => {
+const getAllEvents = (req, res) => {
 	const getEventsQuery = `SELECT *, events.id FROM events LEFT JOIN actors ON actors.id = events.actor_id LEFT JOIN repos ON repos.id = events.repo_id ORDER BY events.id ASC`
 	db.all(getEventsQuery, (err, rows) => {
 		if (err) {
@@ -17,7 +17,7 @@ var getAllEvents = (req, res) => {
 	})
 };
 
-var addEvent = (req, res) => {
+const addEvent = (req, res) => {
 	const { type, actor_id, repo_id } = req.body;
 
 	if (!type || !actor_id || !repo_id) {
@@ -45,7 +45,7 @@ var addEvent = (req, res) => {
 };
 
 
-var getByActor = (req, res) => {
+const getByActor = (req, res) => {
 	const { id } = req.params;
 
 	const actorEventsQuery = `SELECT * FROM events WHERE actor_id = ? ORDER BY events.id ASC`;
@@ -73,7 +73,7 @@ var getByActor = (req, res) => {
 };
 
 
-var eraseEvents = (req, res) => {
+const eraseEvents = (req, res) => {
 	const deleteQuery = `DELETE FROM events`;
 	db.run(deleteQuery, (err) => {
 		if (err) {

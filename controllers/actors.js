@@ -1,7 +1,7 @@
 const db = require('../db/index');
 
 // get all actors from the database
-var getAllActors = (req, res) => {
+const getAllActors = (req, res) => {
 	const query = `SELECT DISTINCT actors.id, actors.login, actors.avatar_url, COUNT() FROM actors INNER JOIN events ON events.actor_id = actors.id GROUP BY actors.id HAVING COUNT() >= 1 ORDER BY COUNT() DESC, events.created_at DESC, actors.login ASC`;
 	db.serialize(() => {
 		db.all(query, (err, rows) => {
@@ -22,7 +22,7 @@ var getAllActors = (req, res) => {
 };
 
 // Update actor's avatar url
-var updateActor = (req, res) => {
+const updateActor = (req, res) => {
 	const { id, login, avatar_url } = req.body;
 	let updateError = false;
 	const findActor = `SELECT * FROM actors WHERE id = ?`;
@@ -79,7 +79,7 @@ var updateActor = (req, res) => {
 	})
 };
 
-var getStreak = (req, res) => {
+const getStreak = (req, res) => {
 	const query = `SELECT DISTINCT actors.id, actors.login, actors.avatar_url, COUNT() FROM actors INNER JOIN events ON events.actor_id = actors.id GROUP BY actors.id HAVING COUNT() >= 1 ORDER BY COUNT() DESC, events.created_at DESC, actors.login ASC`;
 	db.serialize(() => {
 		db.all(query, (err, rows) => {
