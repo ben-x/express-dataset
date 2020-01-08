@@ -1,7 +1,20 @@
 const db = require('../db/index');
 
-var getAllEvents = () => {
-
+var getAllEvents = (req, res) => {
+	const getEventsQuery = `SELECT *, events.id FROM events LEFT JOIN actors ON actors.id = events.actor_id LEFT JOIN repos ON repos.id = events.repo_id ORDER BY events.id ASC`
+	db.all(getEventsQuery, (err, rows) => {
+		if (err) {
+			return res.status(500).send({
+				error: true,
+				message: 'Network error, please try again later'
+			});
+		}
+		return res.status(200).send({
+			error: false,
+			message: 'All events',
+			data: rows
+		})
+	})
 };
 
 var addEvent = (req, res) => {
