@@ -22,6 +22,13 @@ class ActorRepository {
       [login, avatar_url, eventId])
   }
 
+    // delete all actors
+    delete() {
+      return this.dao.run(
+        `DELETE FROM actors`
+      )
+    }
+
   update(id, avatar_url) {
     return this.dao.run(
       `UPDATE actors

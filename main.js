@@ -6,11 +6,34 @@ const RepoRepository = require('./repo_repository')
 
 function main() {
   const dao = new AppDAO('./database.sqlite3')
-  const expressProjectData = { type: 'PushEvent' }
+  const expressProjectData = {
+    type: 'PullEvent',
+    created_at: '2015-10-03 06:13:31'
+  }
   const eventRepo = new EventRepository(dao)
   const actorRepo = new ActorRepository(dao)
   const repoRepo = new RepoRepository(dao)
   let eventId
+
+  // // delete events, actors and repos
+  // eventRepo.delete()
+  // .then(() => {
+  //   console.log(`\nevents deleted `);
+  // })
+  // .then(() => actorRepo.delete())
+  // .then(() => {
+  //   console.log(`\nactors deleted `);
+  // })
+  // .then(() => repoRepo.delete())
+  // .then(() => {
+  //   console.log(`\nrepos deleted `);
+  // })
+
+  // // delete events table
+  // eventRepo.deleteTable()
+  // .then(() => {
+  //   console.log(`\ntable deleted `);
+  // })
 
   eventRepo.createTable()
     .then(() => actorRepo.createTable())
@@ -18,36 +41,42 @@ function main() {
     .then(() => eventRepo.create(expressProjectData.type))
     .then((data) => {
       eventId = data.id
-      const actors = [
-        {
-          login: 'Outline',
-          avatar_url: 'High level overview of sections',
+      const actors = [{
+          login: 'daniel33',
+          avatar_url: 'https://avatars.com/2790311',
           eventId
         },
         {
-          login: 'Write',
-          avatar_url: 'Write article contents and code examples',
+          login: 'eric66',
+          avatar_url: 'https://avatars.com/2907782',
           eventId
         }
       ]
-      const repos = [
-        {
-          name: 'Repo1',
-          url: 'High level overview of sections',
+      const repos = [{
+          name: 'johnbolton/exercitationem',
+          url: 'https://github.com/johnbolton/exercitationem',
           eventId
         },
         {
-          name: 'Reo2',
-          url: 'Write article contents and code examples',
+          name: 'pestrada/voluptatem',
+          url: 'https://github.com/pestrada/voluptatem',
           eventId
         }
       ]
 
       return Promise.all(actors.map((actor) => {
-        const { login, avatar_url, eventId } = actor
+        const {
+          login,
+          avatar_url,
+          eventId
+        } = actor
         return actorRepo.create(login, avatar_url, eventId)
       }), repos.map((repo) => {
-        const { name, url, eventId } = repo
+        const {
+          name,
+          url,
+          eventId
+        } = repo
         return repoRepo.create(name, url, eventId)
       }))
     })
@@ -66,19 +95,6 @@ function main() {
       console.log(`\nRetreived repos from database`)
       console.log(repos);
     })
-    // .then((actors) => {
-    //   console.log('\nRetrieved event actors from database')
-    //   return new Promise((resolve, reject) => {
-    //     actors.forEach((actor) => {
-    //       console.log(`actor id = ${actor.id}`)
-    //       console.log(`actor name = ${actor.name}`)
-    //       console.log(`actor description = ${actor.description}`)
-    //       console.log(`actor isComplete = ${actor.isComplete}`)
-    //       console.log(`actor eventId = ${actor.eventId}`)
-    //     })
-    //   })
-    //   resolve('success')
-    // })
     .catch((err) => {
       console.log('Error: ')
       console.log(JSON.stringify(err))

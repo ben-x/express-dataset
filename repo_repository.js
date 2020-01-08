@@ -22,6 +22,13 @@ class RepoRepository {
       [name, url, eventId])
   }
 
+    // delete all repos
+    delete() {
+      return this.dao.run(
+        `DELETE FROM repos`
+      )
+    }
+
   // get all repos
   getAll() {
     return this.dao.all(`SELECT * FROM repos`)

@@ -7,9 +7,16 @@ class EventRepository {
     const sql = `
       CREATE TABLE IF NOT EXISTS events (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        type TEXT
+        type TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 )`
     return this.dao.run(sql)
+  }
+
+  deleteTable(){
+    const esql = `
+      DROP TABLE events`;
+    return this.dao.run(esql)
   }
 
   create(type) {
@@ -29,7 +36,7 @@ class EventRepository {
   // delete all events
   delete() {
     return this.dao.run(
-      `DELETE * FROM events`
+      `DELETE FROM events`
     )
   }
 
