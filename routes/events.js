@@ -10,6 +10,6 @@ const {
 router.post('/events', addEvent);
 router.get('/events', getAllEvents);
 router.get('/events/actors/:id', getByActor);
-router.delete('/events', eraseEvents);
+router.delete('/erase', eraseEvents);
 
 module.exports = router;
