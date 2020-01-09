@@ -18,11 +18,15 @@ var getAllActors = () => {
 		});
 };
 
-var updateActor = (id, login, avatar_url) => {
+var updateActor = async (id, login, avatar_url) => {
+const fetchActor = await actorRepo.getById(id);
+if (!fetchActor) {
+	return {status: false, data: 'No actor with this id'};
+}
 	return actorRepo
 		.update(id, avatar_url)
-		.then(data => {
-			return data;
+		.then(data => {			
+				return {status: true, data};
 		})
 		.catch(err => {
 			console.log('Error: ');
