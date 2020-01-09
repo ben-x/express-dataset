@@ -8,18 +8,22 @@ class ActorRepository {
     CREATE TABLE IF NOT EXISTS actors (
       id INTEGER PRIMARY KEY,
       login TEXT,
-      avatar_url TEXT,
-      eventId INTEGER,
-      CONSTRAINT actors_fk_eventId FOREIGN KEY (eventId)
-          REFERENCES events(id) ON UPDATE CASCADE ON DELETE CASCADE)`
+      avatar_url TEXT
+)`
     return this.dao.run(sql)
   }
 
-  create(id, login, avatar_url, eventId) {
+	deleteTable() {
+		const esql = `
+      DROP TABLE actors`;
+		return this.dao.run(esql);
+	}
+
+  create(id, login, avatar_url) {
     return this.dao.run(
-      `INSERT INTO actors (id, login, avatar_url, eventId)
-        VALUES (?, ?, ?, ?)`,
-      [id, login, avatar_url, eventId])
+      `INSERT INTO actors (id, login, avatar_url)
+        VALUES (?, ?, ?)`,
+      [id, login, avatar_url])
   }
 
   getById(id) {
