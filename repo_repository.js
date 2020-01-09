@@ -9,8 +9,8 @@ class RepoRepository {
       id INTEGER PRIMARY KEY,
       name TEXT,
       url TEXT,
-      actorId INTEGER,
-      CONSTRAINT repos_fk_actorId FOREIGN KEY (actorId)
+      actor INTEGER,
+      CONSTRAINT repos_fk_actor FOREIGN KEY (actor)
           REFERENCES actors(id) ON UPDATE CASCADE ON DELETE CASCADE)`
     return this.dao.run(sql)
   }
@@ -21,11 +21,11 @@ class RepoRepository {
 		return this.dao.run(esql);
 	}
 
-  create(id, name, url, actorId) {
+  create(id, name, url, actor) {
     return this.dao.run(
-      `INSERT INTO repos (id, name, url, actorId)
+      `INSERT INTO repos (id, name, url, actor)
         VALUES (?, ?, ?, ?)`,
-      [id, name, url, actorId])
+      [id, name, url, actor])
   }
 
   getById(id) {

@@ -6,6 +6,6 @@ var eventsController = require('./../controllers/events');
 // Erasing all the events
 router.delete("/", async (req, res, next) => {
 	const response = await eventsController.eraseEvents();
-	res.status(200).json({ success: true, msg: 'events deleted successfully', data: {}})
+	res.status(200).json({})
 });
 module.exports = router;

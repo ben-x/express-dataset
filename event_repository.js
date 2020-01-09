@@ -10,10 +10,10 @@ class EventRepository {
       CREATE TABLE IF NOT EXISTS events (
         id INTEGER PRIMARY KEY,
         type TEXT,
-        actorId INTEGER,
-        repoId INTEGER,
+        actor INTEGER,
+        repo INTEGER,
         created_at TEXT,
-        CONSTRAINT events_fk_repoId FOREIGN KEY (repoId)
+        CONSTRAINT events_fk_repo FOREIGN KEY (repo)
           REFERENCES repos(id) ON UPDATE CASCADE ON DELETE CASCADE)`;
 		return this.dao.run(sql);
 	}
@@ -24,10 +24,10 @@ class EventRepository {
 		return this.dao.run(esql);
 	}
 
-	create(id, type, actorId, repoId, created_at) {
+	create(id, type, actor, repo, created_at) {
 		return this.dao.run(
-			'INSERT INTO events (id, type, actorId, repoId, created_at) VALUES (?, ?, ?, ?, ?)',
-			[id, type, actorId, repoId, created_at]
+			'INSERT INTO events (id, type, actor, repo, created_at) VALUES (?, ?, ?, ?, ?)',
+			[id, type, actor, repo, created_at]
 		);
 	}
 
@@ -45,15 +45,19 @@ class EventRepository {
 		return this.dao.get(`SELECT * FROM events WHERE id = ?`, [id]);
 	}
 
-	// get event by actorId
-	getEvents(actorId) {
-		return this.dao.all(`SELECT * FROM events WHERE actorId = ?`, [actorId]);
+	// get event by actor
+	getEvents(actor) {
+		return this.dao.all(`SELECT * FROM events WHERE actor = ?`, [actor]);
 	}
 
 	// get all events
 	getAll() {
 		return this.dao.all(`SELECT * FROM events`);
-	}
+  }
+  
+  // getAll() {
+	// 	return this.dao.all(`SELECT events.id, events.type, events.created_at, actors.id, actors.login, actors.avatar_url FROM events, actors LEFT JOIN actors ON events.actor = actors.id`);
+	// }
 }
 
 module.exports = EventRepository;

@@ -13,8 +13,15 @@ const repoRepo = new RepoRepository(dao);
 var getAllEvents = () => {
 	return eventRepo
 		.getAll()
-		.then(data => {
-			return data;
+		.then(async data => {
+			const transformedData = await data.map(async event => {
+				// console.log(event);
+				const { actor, repo } = event;
+				event.actor = await actorRepo.getById(actor);
+				event.repo = await repoRepo.getById(repo);
+				return event;
+			});
+			return await Promise.all(transformedData);
 		})
 		.catch(err => {
 			console.log('Error: ');
@@ -62,6 +69,7 @@ var addEvent = async eventBody => {
 		.then(async data => {
 			const eventId = eventBody.id;
 			const fetchEvent = await eventRepo.getById(eventId);
+			
 			// if event already exist,
 			if (fetchEvent && fetchEvent.id) {
 				throw new Error('EventId already exist');
@@ -69,10 +77,11 @@ var addEvent = async eventBody => {
 				const event = await eventRepo.create(
 					eventBody.id,
 					eventBody.type,
-					(actorId = data.actor.id),
-					(repoId = data.fetchRepo.id),
+					data.actor.id,
+					data.fetchRepo.id,
 					eventBody.created_at
 				);
+
 				const fetchEvent = await eventRepo.getById(event.id);
 				const newEvent = {
 					id: fetchEvent.id,
@@ -81,7 +90,6 @@ var addEvent = async eventBody => {
 					repo: data.fetchRepo,
 					created_at: fetchEvent.created_at
 				};
-
 				return newEvent;
 			}
 		})
@@ -107,16 +115,15 @@ var getByActor = actorId => {
 
 var eraseEvents = () => {
 	return eventRepo
-	.delete()
-	.then(data => {
-		return data;
-	})
-	.catch(err => {
-		console.log('Error: ');
-		console.log(JSON.stringify(err));
-		return err;
-	});
-
+		.delete()
+		.then(data => {
+			return data;
+		})
+		.catch(err => {
+			console.log('Error: ');
+			console.log(JSON.stringify(err));
+			return err;
+		});
 };
 
 module.exports = {

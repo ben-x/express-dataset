@@ -11,7 +11,7 @@ router.put("/", (req, res, next) => {
 // Returning the actor records ordered by the total number of events
 router.get("/", async (req, res, next) => {
   const actors = await actorsController.getAllActors();  
-	res.status(200).json({ success: true, data: actors})
+	res.status(200).json(actors)
 });
 
 // Returning the actor records ordered by the maximum streak
