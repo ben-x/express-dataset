@@ -72,7 +72,7 @@ var addEvent = async eventBody => {
 			
 			// if event already exist,
 			if (fetchEvent && fetchEvent.id) {
-				throw new Error('EventId already exist');
+				return {status: false, data: 'Event id already exists'};
 			} else {
 				const event = await eventRepo.create(
 					eventBody.id,
@@ -90,7 +90,7 @@ var addEvent = async eventBody => {
 					repo: data.fetchRepo,
 					created_at: fetchEvent.created_at
 				};
-				return newEvent;
+				return {status: true, data: newEvent};
 			}
 		})
 		.catch(err => {
@@ -104,7 +104,11 @@ var getByActor = actorId => {
 	return eventRepo
 		.getEvents(actorId)
 		.then(data => {
-			return data;
+			if (data.length) {
+				return {status: true, data};
+			} else {
+				return {status: false, data};
+			}
 		})
 		.catch(err => {
 			console.log('Error: ');

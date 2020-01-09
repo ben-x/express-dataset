@@ -24,6 +24,8 @@ function main() {
 		.then(() => repoRepo.createTable())
 		.then(() => eventRepo.delete())
 		.then(() => eventRepo.deleteTable())
+		.then(() => repoRepo.deleteTable())
+		.then(() => actorRepo.deleteTable())
 		.then(() => {
 			console.log(`\nevents deleted `);
 		})
