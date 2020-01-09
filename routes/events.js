@@ -13,7 +13,6 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
 	try {
 		const event = await eventsController.addEvent(req.body);
-		// console.log(event);
 		return res.status(201).json({ success: true, data: event });
 	} catch (error) {
 		return res.status(400).json({ error: error.message });
@@ -21,8 +20,11 @@ router.post('/', async (req, res, next) => {
 });
 
 // Returning the event records filtered by the actor ID
-router.post('/actors/:id', (req, res, next) => {
-	res.json({ message: 'Ok' });
+router.get('/actors/:id', async (req, res, next) => {
+	const id = req.params.id;	
+	const events = await eventsController.getByActor(id);
+	res.status(200).json({ success: true, data: events})
+ 
 });
 
 module.exports = router;

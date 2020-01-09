@@ -24,46 +24,66 @@ var getAllEvents = () => {
 };
 
 var addEvent = async eventBody => {
-	return eventRepo
+	const { actor, repo } = eventBody;
+	return actorRepo
 		.createTable()
-		.then(() => actorRepo.createTable())
 		.then(() => repoRepo.createTable())
+		.then(() => eventRepo.createTable())
 		.then(async () => {
-			const event = await eventRepo.create(
-				eventBody.id,
-				eventBody.type,
-				eventBody.created_at
-			);
-			return eventRepo.getById(event.id);
+			// create actor if not already created
+			const fetchActor = await actorRepo.getById(actor.id);
+			if (fetchActor && fetchActor.id) {
+				return fetchActor;
+			} else {
+				const createActor = await actorRepo.create(
+					actor.id,
+					actor.login,
+					actor.avatar_url
+				);
+				return actorRepo.getById(createActor.id);
+			}
+		})
+		.then(async actor => {
+			// create repo if not already created
+			const fetchRepo = await repoRepo.getById(repo.id);
+			if (fetchRepo && fetchRepo.id) {
+				return { actor, fetchRepo };
+			} else {
+				const createRepo = await repoRepo.create(
+					repo.id,
+					repo.name,
+					repo.url,
+					actor.id
+				);
+				const fetchRepo = await repoRepo.getById(createRepo.id);
+				return { actor, fetchRepo };
+			}
 		})
 		.then(async data => {
-			
-			const eventId = data.id;
-			const { actor, repo } = eventBody;
-			const createActor = await actorRepo.create(
-				actor.id,
-				actor.login,
-				actor.avatar_url,
-				eventId
-			);
-			const createRepo = await repoRepo.create(
-				repo.id,
-				repo.name,
-				repo.url,
-				eventId
-			);			
+			const eventId = eventBody.id;
+			const fetchEvent = await eventRepo.getById(eventId);
+			// if event already exist,
+			if (fetchEvent && fetchEvent.id) {
+				throw new Error('EventId already exist');
+			} else {
+				const event = await eventRepo.create(
+					eventBody.id,
+					eventBody.type,
+					(actorId = data.actor.id),
+					(repoId = data.fetchRepo.id),
+					eventBody.created_at
+				);
+				const fetchEvent = await eventRepo.getById(event.id);
+				const newEvent = {
+					id: fetchEvent.id,
+					type: fetchEvent.type,
+					actor: data.actor,
+					repo: data.fetchRepo,
+					created_at: fetchEvent.created_at
+				};
 
-			const newActor = await actorRepo.getById(createActor.id);
-			const newRepo = await repoRepo.getById(createRepo.id);
-			const newEvent = {
-				id: data.id,
-				type: data.type,
-				actor: newActor,
-				repo: newRepo,
-				created_at: data.created_at
-			};
-
-			return newEvent;
+				return newEvent;
+			}
 		})
 		.catch(err => {
 			console.log('Error: ');
@@ -72,18 +92,17 @@ var addEvent = async eventBody => {
 		});
 };
 
-var getByActor = (actorId) => {
+var getByActor = actorId => {
 	return eventRepo
-	.getEvents(actorId)
-	.then(data => {
-		return data;
-	})
-	.catch(err => {
-		console.log('Error: ');
-		console.log(JSON.stringify(err));
-		return err;
-	});
-
+		.getEvents(actorId)
+		.then(data => {
+			return data;
+		})
+		.catch(err => {
+			console.log('Error: ');
+			console.log(JSON.stringify(err));
+			return err;
+		});
 };
 
 var eraseEvents = () => {};
