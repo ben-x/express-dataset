@@ -47,16 +47,16 @@ class EventRepository {
 
 	// get event by actor
 	getEvents(actor) {
-		return this.dao.all(`SELECT * FROM events WHERE actor = ?`, [actor]);
+		return this.dao.all(`SELECT * FROM events WHERE actor = ? ORDER BY id`, [actor]);
 	}
 
 	// get all events
 	getAll() {
-		return this.dao.all(`SELECT * FROM events`);
+		return this.dao.all(`SELECT * FROM events ORDER BY id`);
   }
   
   // getAll() {
-	// 	return this.dao.all(`SELECT events.id, events.type, events.created_at, actors.id, actors.login, actors.avatar_url FROM events, actors LEFT JOIN actors ON events.actor = actors.id`);
+	// 	return this.dao.all(`SELECT actors.*, events.id, events.type, events.created_at FROM actors, events LEFT JOIN actors ON events.actor = actors.id`);
 	// }
 }
 
