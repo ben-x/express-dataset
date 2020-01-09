@@ -6,7 +6,7 @@ class ActorRepository {
   createTable() {
     const sql = `
     CREATE TABLE IF NOT EXISTS actors (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id INTEGER PRIMARY KEY,
       login TEXT,
       avatar_url TEXT,
       eventId INTEGER,
@@ -15,11 +15,17 @@ class ActorRepository {
     return this.dao.run(sql)
   }
 
-  create(login, avatar_url, eventId) {
+  create(id, login, avatar_url, eventId) {
     return this.dao.run(
-      `INSERT INTO actors (login, avatar_url, eventId)
-        VALUES (?, ?, ?)`,
-      [login, avatar_url, eventId])
+      `INSERT INTO actors (id, login, avatar_url, eventId)
+        VALUES (?, ?, ?, ?)`,
+      [id, login, avatar_url, eventId])
+  }
+
+  getById(id) {
+    return this.dao.get(
+      `SELECT * FROM actors WHERE id = ?`,
+      [id])
   }
 
     // delete all actors

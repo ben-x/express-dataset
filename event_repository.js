@@ -3,12 +3,14 @@ class EventRepository {
     this.dao = dao
   }
 
+  // created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+
   createTable() {
     const sql = `
       CREATE TABLE IF NOT EXISTS events (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY,
         type TEXT,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        created_at TEXT
 )`
     return this.dao.run(sql)
   }
@@ -19,10 +21,10 @@ class EventRepository {
     return this.dao.run(esql)
   }
 
-  create(type) {
+  create(id, type, created_at) {
     return this.dao.run(
-      'INSERT INTO events (type) VALUES (?)',
-      [type])
+      'INSERT INTO events (id, type, created_at) VALUES (?, ?, ?)',
+      [id, type, created_at])
   }
 
   // delete by id

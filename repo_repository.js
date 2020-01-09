@@ -6,7 +6,7 @@ class RepoRepository {
   createTable() {
     const sql = `
     CREATE TABLE IF NOT EXISTS repos (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id INTEGER PRIMARY KEY,
       name TEXT,
       url TEXT,
       eventId INTEGER,
@@ -15,11 +15,17 @@ class RepoRepository {
     return this.dao.run(sql)
   }
 
-  create(name, url, eventId) {
+  create(id, name, url, eventId) {
     return this.dao.run(
-      `INSERT INTO repos (name, url, eventId)
-        VALUES (?, ?, ?)`,
-      [name, url, eventId])
+      `INSERT INTO repos (id, name, url, eventId)
+        VALUES (?, ?, ?, ?)`,
+      [id, name, url, eventId])
+  }
+
+  getById(id) {
+    return this.dao.get(
+      `SELECT * FROM repos WHERE id = ?`,
+      [id])
   }
 
     // delete all repos

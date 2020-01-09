@@ -7,78 +7,56 @@ const RepoRepository = require('./repo_repository')
 function main() {
   const dao = new AppDAO('./database.sqlite3')
   const expressProjectData = {
-    type: 'PullEvent',
-    created_at: '2015-10-03 06:13:31'
-  }
-  const eventRepo = new EventRepository(dao)
-  const actorRepo = new ActorRepository(dao)
-  const repoRepo = new RepoRepository(dao)
+    id: 40551916,
+    type: "PushEvent",
+    created_at: "2015-10-03 06:13:31"
+  };
+  // console.log(expressProjectData);
+
+  const eventRepo = new EventRepository(dao);
+  const actorRepo = new ActorRepository(dao);
+  const repoRepo = new RepoRepository(dao);
   let eventId
 
-  // // delete events, actors and repos
-  // eventRepo.delete()
-  // .then(() => {
-  //   console.log(`\nevents deleted `);
-  // })
-  // .then(() => actorRepo.delete())
-  // .then(() => {
-  //   console.log(`\nactors deleted `);
-  // })
-  // .then(() => repoRepo.delete())
-  // .then(() => {
-  //   console.log(`\nrepos deleted `);
-  // })
-
-  // // delete events table
-  // eventRepo.deleteTable()
-  // .then(() => {
-  //   console.log(`\ntable deleted `);
-  // })
 
   eventRepo.createTable()
     .then(() => actorRepo.createTable())
     .then(() => repoRepo.createTable())
-    .then(() => eventRepo.create(expressProjectData.type))
-    .then((data) => {
-      eventId = data.id
-      const actors = [{
-          login: 'daniel33',
-          avatar_url: 'https://avatars.com/2790311',
-          eventId
-        },
-        {
-          login: 'eric66',
-          avatar_url: 'https://avatars.com/2907782',
-          eventId
-        }
-      ]
-      const repos = [{
-          name: 'johnbolton/exercitationem',
-          url: 'https://github.com/johnbolton/exercitationem',
-          eventId
-        },
-        {
-          name: 'pestrada/voluptatem',
-          url: 'https://github.com/pestrada/voluptatem',
-          eventId
-        }
-      ]
+    .then(() => eventRepo.delete())
+    .then(() => {
+      console.log(`\nevents deleted `);
+    })
+    .then(() => actorRepo.delete())
+    .then(() => {
+      console.log(`\nactors deleted `);
+    })
+    .then(() => repoRepo.delete())
+    .then(() => {
+      console.log(`\nrepos deleted `);
+    })
+    .then(() => {
+      // console.log(expressProjectData);
 
-      return Promise.all(actors.map((actor) => {
-        const {
-          login,
-          avatar_url,
-          eventId
-        } = actor
-        return actorRepo.create(login, avatar_url, eventId)
-      }), repos.map((repo) => {
-        const {
-          name,
-          url,
-          eventId
-        } = repo
-        return repoRepo.create(name, url, eventId)
-      }))
+      return eventRepo.create(expressProjectData.id, expressProjectData.type, expressProjectData.created_at)
+    })
+    .then((data) => {
+      console.log(`\n`, data);
+
+      const actor = {
+        id: 2790311,
+        login: "daniel33",
+        avatar_url: "https://avatars.com/2790311"
+      }
+
+      const repo = {
+        id: 352806,
+        name: "johnbolton/exercitationem",
+        url: "https://github.com/johnbolton/exercitationem"
+      }
+
+      const eventId = data.id;
+      actorRepo.create(actor.id, actor.login, actor.avatar_url, eventId);
+      repoRepo.create(repo.id, repo.name, repo.url, eventId);
     })
     .then(() => eventRepo.getAll())
     .then((events) => {
