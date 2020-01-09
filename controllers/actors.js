@@ -18,7 +18,18 @@ var getAllActors = () => {
 		});
 };
 
-var updateActor = () => {};
+var updateActor = (id, login, avatar_url) => {
+	return actorRepo
+		.update(id, avatar_url)
+		.then(data => {
+			return data;
+		})
+		.catch(err => {
+			console.log('Error: ');
+			console.log(JSON.stringify(err));
+			return err;
+		});
+};
 
 var getStreak = () => {};
 

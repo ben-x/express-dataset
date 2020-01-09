@@ -42,9 +42,9 @@ class ActorRepository {
   update(id, avatar_url) {
     return this.dao.run(
       `UPDATE actors
-      SET avatar_url = ?,
+      SET avatar_url = ?
       WHERE id = ?`,
-      [ avatar_url, id]
+      [avatar_url, id]
     )
   }
 
