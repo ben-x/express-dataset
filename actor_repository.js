@@ -50,7 +50,13 @@ class ActorRepository {
 
   // get all actors
   getAll() {
-    return this.dao.all(`SELECT * FROM actors`)
+    return this.dao.all(`SELECT actors.*, COUNT(events.actor) 
+    FROM events 
+    LEFT JOIN actors 
+    ON events.actor = actors.id 
+    GROUP BY actor 
+    ORDER BY COUNT(events.actor) DESC, events.created_at DESC, actors.login
+    `)
   }
 }
 
