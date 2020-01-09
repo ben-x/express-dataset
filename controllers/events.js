@@ -105,7 +105,19 @@ var getByActor = actorId => {
 		});
 };
 
-var eraseEvents = () => {};
+var eraseEvents = () => {
+	return eventRepo
+	.delete()
+	.then(data => {
+		return data;
+	})
+	.catch(err => {
+		console.log('Error: ');
+		console.log(JSON.stringify(err));
+		return err;
+	});
+
+};
 
 module.exports = {
 	getAllEvents: getAllEvents,
