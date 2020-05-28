@@ -14,27 +14,25 @@ const getAllEvents = (req, res, next) => {
 		});
 };
 
-const addEvent = (req, res) => {
+const addEvent = (req, res, next) => {
 	db.findOne({ id: req.body.id }, (err, doc) => {
-		if(doc.id) {
-			return res.status(400).json({
+		if (doc !== null) {
+			res.status(400).json({
 				status: 'failed',
 				message: 'Event already exists!',
 			});
-		}
-	});
+		} else {
+			db.insert(req.body, (err, newDoc) => {
+				if (err) {
+					next(err);
+				}
 
-	db.insert(req.body, (err, newDoc) => {
-		if (err) {
-			res.status(500).json({
-				status: 'failed',
+				res.status(201).json({
+					status: 'success',
+					newDoc,
+				});
 			});
 		}
-
-		res.status(201).json({
-			status: 'success',
-			newDoc
-		})
 	});
 };
 
