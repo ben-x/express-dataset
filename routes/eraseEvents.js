@@ -1,12 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+const { eraseEvents } = require('../controllers/erase');
+
 // Route related to delete events
-router.get('/', (req, res) => {
-	res.status(200).json({
-		status: 'Success',
-		message: 'eraseEvents route',
-	});
-});
+router.route('/').delete(eraseEvents);
 
 module.exports = router;
