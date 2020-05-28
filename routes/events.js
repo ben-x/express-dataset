@@ -1,12 +1,14 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+
+const { getAllEvents, addEvent, getByActor } = require('../controllers/events');
 
 // Routes related to event
-router.get('/', (req, res) => {
-	res.status(200).json({
-		status: 'Success',
-		message: 'Events route',
-	});
-});
+router
+  .route('/')
+  .get(getAllEvents)
+  .post(addEvent);
+
+router.route('/actors/:id').get(getByActor);
 
 module.exports = router;
