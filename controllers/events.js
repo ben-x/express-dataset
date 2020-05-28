@@ -1,42 +1,47 @@
+const db = require('../database/db-config');
 
-var getAllEvents = () => {
+const getAllEvents = (req, res, next) => {
+	db.find({})
+		.sort({ id: 1 })
+		.exec((err, docs) => {
+			if (err) {
+				next(err);
+			}
 
+			res.status(200).json({
+				docs,
+			});
+		});
 };
 
-var addEvent = () => {
+const addEvent = (req, res) => {
+	db.findOne({ id: req.body.id }, (err, doc) => {
+		if(doc.id) {
+			return res.status(400).json({
+				status: 'failed',
+				message: 'Event already exists!',
+			});
+		}
+	});
 
+	db.insert(req.body, (err, newDoc) => {
+		if (err) {
+			res.status(500).json({
+				status: 'failed',
+			});
+		}
+
+		res.status(201).json({
+			status: 'success',
+			newDoc
+		})
+	});
 };
 
-
-var getByActor = () => {
-
-};
-
-
-var eraseEvents = () => {
-
-};
+const getByActor = () => {};
 
 module.exports = {
 	getAllEvents: getAllEvents,
 	addEvent: addEvent,
 	getByActor: getByActor,
-	eraseEvents: eraseEvents
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
