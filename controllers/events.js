@@ -36,7 +36,27 @@ const addEvent = (req, res, next) => {
 	});
 };
 
-const getByActor = () => {};
+const getByActor = (req, res) => {
+	const { id } = req.params;
+
+	db.find({ 'actor.id': parseInt(id) })
+		.sort({ id: 1 })
+		.exec((err, docs) => {
+			if (err) {
+				res.status(500).end();
+			}
+
+			if (docs.length === 0) {
+				res.status(404).json({
+					message: 'No such actor found.'
+				});
+			} else {
+				res.status(200).json({
+					docs,
+				});
+			}
+		});
+};
 
 module.exports = {
 	getAllEvents: getAllEvents,
