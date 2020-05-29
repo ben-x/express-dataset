@@ -6,9 +6,7 @@ const eraseEvents = (req, res, next) => {
 			next(err);
 		}
 
-		res.status(200).json({
-			numRemoved,
-		});
+		res.status(200).end();
 	});
 };
 
