@@ -8,6 +8,8 @@ const {
 } = require('../controllers/actors');
 
 // Routes related to actor.
-router.route('/').put(updateActor);
+router.route('/').put(updateActor).get(getAllActors);
+
+router.route('/streak').get(getStreak);
 
 module.exports = router;
