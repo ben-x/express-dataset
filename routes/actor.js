@@ -1,13 +1,13 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+
+const {
+	getAllActors,
+	updateActor,
+	getStreak,
+} = require('../controllers/actors');
 
 // Routes related to actor.
-router.get('/', (req, res) => {
-	res.status(200).json({
-		status: 'Success',
-		message: 'You hit the actors route!',
-	});
-	// res.render('actors', {title: 'Actors'});
-});
+router.route('/').put(updateActor);
 
 module.exports = router;
