@@ -1,6 +1,18 @@
 const db = require('../database/db-config');
 
-const getAllActors = () => {};
+const getAllActors = (req, res) => {
+	db.find({})
+		.sort({ 'actor.id': -1, created_at: -1, 'actor.login': -1 })
+		.exec((err, docs) => {
+			if (err) {
+				res.status(500).end();
+			}
+
+			res.status(200).json({
+				docs,
+			});
+		});
+};
 
 const updateActor = (req, res) => {
 	if (Object.entries(req.body).length > 3) {
