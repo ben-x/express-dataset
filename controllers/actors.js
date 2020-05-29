@@ -1,6 +1,8 @@
 const db = require('../database/db-config');
 
 const getAllActors = (req, res) => {
+	let result;
+
 	db.find({})
 		.sort({ 'actor.id': -1, created_at: -1, 'actor.login': -1 })
 		.exec((err, docs) => {
@@ -8,8 +10,10 @@ const getAllActors = (req, res) => {
 				res.status(500).end();
 			}
 
+			result = docs.map((doc) => doc.actor);
+
 			res.status(200).json({
-				docs,
+				result,
 			});
 		});
 };
