@@ -28,7 +28,14 @@ const addEvent = async (req, res, next) => {
 
 var getByActor = () => {};
 
-var eraseEvents = () => {};
+const eraseEvents = async (req, res, next) => {
+  try {
+    const erasedCount = await db.remove({}, { multi: true });
+    return ok(res, { message: `${erasedCount} event(s) erased!!!` });
+  } catch (error) {
+    return next(error);
+  }
+};
 
 module.exports = {
   getAllEvents: getAllEvents,
