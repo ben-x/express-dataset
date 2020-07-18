@@ -1,7 +1,9 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const { addEvent } = require('../controllers/events');
+const { addEventValidation } = require('../middleware/validation');
 
-// Routes related to event
+const router = express.Router();
 
+router.post('/', addEventValidation, addEvent);
 
 module.exports = router;
