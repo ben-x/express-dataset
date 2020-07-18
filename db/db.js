@@ -1,5 +1,6 @@
-var Datastore = require('nedb');
-var db = new Datastore({
+const Datastore = require('nedb-promises');
+
+const db = Datastore.create({
   filename: 'db/datafile.db',
   autoload: true,
 });
