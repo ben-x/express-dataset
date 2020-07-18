@@ -26,10 +26,10 @@ const unporecessed = (res, message) => {
   });
 };
 
-const ok = (res, message) => {
+const ok = (res, body) => {
   res.status(OK).json({
     status: OK,
-    message,
+    body,
   });
 };
 
@@ -37,4 +37,5 @@ module.exports = {
   conflict,
   created,
   unporecessed,
+  ok,
 };
