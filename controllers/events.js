@@ -1,13 +1,19 @@
-// const createError = require('http-errors');
 const db = require('../db/db');
-const { conflict, created } = require('../helpers/response');
+const { conflict, created, ok } = require('../helpers/response');
 
-var getAllEvents = () => {};
+const getAllEvents = async (req, res, next) => {
+  try {
+    const events = await db.find({}).sort({ id: 1 }).exec();
+    return ok(res, events);
+  } catch (error) {
+    return next(error);
+  }
+};
 
 const addEvent = async (req, res, next) => {
   try {
     const { body } = req;
-    const event = await db.findOne({ _id: body._id });
+    const event = await db.findOne({ id: body.id });
 
     if (event) {
       return conflict(res, 'Event already exist!!');
