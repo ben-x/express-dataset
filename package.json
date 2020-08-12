@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "prestart": "npm install",
-    "start": "node ./bin/www",
+    "start": "nodemon ./bin/www",
     "pretest": "npm install",
     "test": "./node_modules/.bin/mocha test"
   },
   "dependencies": {
+    "-": "0.0.1",
     "bluebird": "^3.5.0",
     "body-parser": "~1.17.1",
     "chai": "^4.1.1",
@@ -25,6 +26,8 @@
     "mocha-multi-reporters": "^1.1.4",
     "morgan": "~1.8.1",
     "nedb": "^1.8.0",
-    "serve-favicon": "~2.4.2"
+    "nodemon": "^2.0.4",
+    "serve-favicon": "~2.4.2",
+    "sqlite3": "^5.0.0"
   }
 }

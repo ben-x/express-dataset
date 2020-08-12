@@ -14,8 +14,8 @@ const testFolder = './test/data';
 let testCaseNames = fs.readFileSync(dir + 'description.txt', 'utf8').toString().split('\n');
 
 
-describe('git_test ', function() {
-	this.timeout(120*1000);
+describe('git_test ', function () {
+	this.timeout(120 * 1000);
 
 	let id = 0;
 	fs.readdirSync(testFolder).sort().forEach(file => {
@@ -27,11 +27,11 @@ describe('git_test ', function() {
 					i += 1;
 					if (line) {
 						event.push(line);
-					}	
+					}
 				});
 				Promise.mapSeries(event, (e) => {
 					let eve = JSON.parse(e);
-					if(eve.request.method == "DELETE") {
+					if (eve.request.method == "DELETE") {
 						return chai.request(server)
 							.delete(eve.request.url)
 							.then((res) => {
@@ -60,30 +60,30 @@ describe('git_test ', function() {
 								return err;
 							});
 					}
-					if(eve.request.method == "PUT") {
+					if (eve.request.method == "PUT") {
 						return chai.request(server)
-								   .put(eve.request.url)
-								   .set(eve.request.headers)
-								   .send(eve.request.body)
-								   .then((res) => {
-								   		return res;
-								   }).catch((err) => {
-								   		return err;
-								   });
+							.put(eve.request.url)
+							.set(eve.request.headers)
+							.send(eve.request.body)
+							.then((res) => {
+								return res;
+							}).catch((err) => {
+								return err;
+							});
 					}
 
 
 				}).then((results) => {
 					for (let j = 0; j < results.length; j++) {
 						let e = JSON.parse(event[j]);
-						if(e.request.method == "GET") {
+						if (e.request.method == "GET") {
 							results[j].should.have.status(e.response.status_code);
 							let ar1 = results[j].body;
 							let ar2 = e.response.body;
-							if(e.response.status_code == 404) {
+							if (e.response.status_code == 404) {
 								continue;
 							}
-		 					expect(ar2.length).to.equal(ar1.length);
+							expect(ar2.length).to.equal(ar1.length);
 							for (let k = 0; k < ar1.length; k++) {
 								expect(ar2[k]).to.deep.equal(ar1[k]);
 							}
