@@ -6,8 +6,12 @@ export default (sequelize: Sequelize): IEventRepository => {
     'Event',
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         primaryKey: true,
+        allowNull: false,
+      },
+      type: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
       actor_id: {
@@ -17,6 +21,11 @@ export default (sequelize: Sequelize): IEventRepository => {
       repo_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
+      },
+      created_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
       },
       createdAt: {
         type: DataTypes.DATE,

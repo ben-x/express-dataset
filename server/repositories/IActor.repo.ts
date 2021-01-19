@@ -8,6 +8,12 @@ export interface IActor {
   updatedAt?: Date;
 }
 
+export interface IActorDTO {
+  id: number;
+  login: string;
+  avatar_url: string;
+}
+
 export interface IActorModel extends Model<IActor>, IActor {
   associate: (model: any) => void;
 }

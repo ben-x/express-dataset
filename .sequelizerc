@@ -1,9 +1,16 @@
 const path = require('path');
 
-// For generating Migration
 module.exports = {
-    "config": path.resolve('./server', 'sequelize.json'),
-    "models-path": path.resolve('./server/database/models'),
-    "seeders-path": path.resolve('./server/database/seeders'),
-    "migrations-path": path.resolve('./server/database/migrations')
+    "config": path.resolve('./dist', 'sequelize.json'),
+    "models-path": path.resolve('./dist/database/models'),
+    "seeders-path": path.resolve('./dist/database/seeders'),
+    "migrations-path": path.resolve('./dist/database/migrations')
 }
+
+// For generating Migration
+// module.exports = {
+//     "config": path.resolve('./server', 'sequelize.json'),
+//     "models-path": path.resolve('./server/database/models'),
+//     "seeders-path": path.resolve('./server/database/seeders'),
+//     "migrations-path": path.resolve('./server/database/migrations')
+// }
