@@ -40,6 +40,15 @@ export default (sequelize: Sequelize): IEventRepository => {
     },
     {},
   );
-  Event.associate = function (_: IEventModel | any) {};
+  Event.associate = function (models: IEventModel | any) {
+    Event.belongsTo(models.Actor, {
+      foreignKey: 'actor_id',
+      onDelete: 'CASCADE',
+    });
+    Event.belongsTo(models.Repo, {
+      foreignKey: 'repo_id',
+      onDelete: 'CASCADE',
+    });
+  };
   return Event;
 };
