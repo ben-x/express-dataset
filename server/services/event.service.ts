@@ -86,4 +86,47 @@ export default class EventServices implements Required<EventServices> {
       return makeResponse(null, HttpStatusCode.INTERNAL_ERROR, error.message);
     }
   };
+
+  /**
+   * @author Akinlua
+   * @method getEventByActorServiceAsync
+   * @desc Feature will get event
+   * @returns {object} BaseResponse
+   */
+  getEventByActorServiceAsync = async (actorId_: string): Promise<BaseResponse<IEventDTO[] | null>> => {
+    try {
+      const actorId = parseInt(actorId_);
+      const existingActor = await Actor.findByPk(actorId);
+      if (!existingActor) {
+        return makeResponse(null, HttpStatusCode.NOT_FOUND, 'The Actor does not exist');
+      }
+      let events = ((await Event.findAll({
+        include: [
+          { model: Actor, as: 'actor', where: { id: actorId } },
+          { model: Repo, as: 'repo' },
+        ],
+        order: [['id', 'ASC']],
+      })) as unknown) as IEventDTO[];
+      events = events.map(
+        ({ id, type, actor, repo, created_at }): IEventDTO => ({
+          id,
+          type,
+          actor: {
+            id: actor.id,
+            login: actor.login,
+            avatar_url: actor.avatar_url,
+          },
+          repo: {
+            id: repo.id,
+            name: repo.name,
+            url: repo.url,
+          },
+          created_at,
+        }),
+      );
+      return makeResponse(events);
+    } catch (error) {
+      return makeResponse(null, HttpStatusCode.INTERNAL_ERROR, error.message);
+    }
+  };
 }
