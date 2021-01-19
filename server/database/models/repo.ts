@@ -1,12 +1,12 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { IRepoRepository, IRepoModel } from 'server/repositories/IRepo.repo';
+import { IRepoRepository, IRepoModel } from '../../repositories/IRepo.repo';
 
 export default (sequelize: Sequelize): IRepoRepository => {
   const Repo = <IRepoRepository>sequelize.define(
     'Repo',
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         primaryKey: true,
         allowNull: false,
       },

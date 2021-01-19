@@ -11,8 +11,8 @@ class Routes {
   }
 
   private applicationRoutes = (): void => {
-    this.router.use('/events', ActorRoutes.router);
-    this.router.use('/actors', EventRoutes.router);
+    this.router.use('/actors', ActorRoutes.router);
+    this.router.use('/events', EventRoutes.router);
   };
 }
 

@@ -5,13 +5,13 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
       },
       type: {
         type: Sequelize.STRING,
       },
       actor_id: {
-        type: Sequelize.STRING,
+        type: Sequelize.BIGINT,
         allowNull: false,
         onDelete: 'CASCADE',
         references: {
@@ -21,7 +21,7 @@ module.exports = {
         },
       },
       repo_id: {
-        type: Sequelize.STRING,
+        type: Sequelize.BIGINT,
         allowNull: false,
         onDelete: 'CASCADE',
         references: {
@@ -29,6 +29,10 @@ module.exports = {
           key: 'id',
           as: 'repo_id',
         },
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,

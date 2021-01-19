@@ -1,12 +1,12 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { IActorRepository, IActorModel } from 'server/repositories/IActor.repo';
+import { IActorRepository, IActorModel } from '../../repositories/IActor.repo';
 
 export default (sequelize: Sequelize): IActorRepository => {
   const Actor = <IActorRepository>sequelize.define(
     'Actor',
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         primaryKey: true,
         allowNull: false,
       },

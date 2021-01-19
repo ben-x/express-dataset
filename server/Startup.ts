@@ -41,14 +41,14 @@ export class Startup {
    * @param {*} prefix
    * @returns {*} void
    */
-  protected setGlobalRoutesPrefix(prefix: string) {
+  protected setGlobalRoutesPrefix(prefix: string): void {
     this.app.use(prefix, Routes.router);
   }
 
   /**
    * @returns {*} void
    */
-  protected setTestApplicationRoutes() {
+  protected setTestApplicationRoutes(): void {
     const details = {
       message: 'Express-Challenge app is up and running',
       app_start: this.app_start,
@@ -99,4 +99,3 @@ export class Startup {
     );
   };
 }
-

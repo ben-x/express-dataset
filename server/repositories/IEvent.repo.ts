@@ -1,11 +1,23 @@
 import { BuildOptions, Model } from 'sequelize';
+import { IActorDTO } from './IActor.repo';
+import { IRepoDTO } from './IRepo.repo';
 
 export interface IEvent {
   id: number;
-  actorId: number;
-  repoId: number;
-  createdAt?: Date;
-  updatedAt?: Date;
+  type: string;
+  actor_id: number;
+  repo_id: number;
+  created_at: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface IEventDTO {
+  id: number;
+  type: string;
+  actor: IActorDTO;
+  repo: IRepoDTO;
+  created_at: string;
 }
 
 export interface IEventModel extends Model<IEvent>, IEvent {
