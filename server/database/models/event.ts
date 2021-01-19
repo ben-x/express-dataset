@@ -14,14 +14,6 @@ export default (sequelize: Sequelize): IEventRepository => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      actor_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      repo_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
       created_at: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -40,6 +32,17 @@ export default (sequelize: Sequelize): IEventRepository => {
     },
     {},
   );
-  Event.associate = function (_: IEventModel | any) {};
+  Event.associate = function (models: IEventModel | any) {
+    Event.hasOne(models.Actor, {
+      foreignKey: 'event_id',
+      onDelete: 'CASCADE',
+      as: 'actor',
+    });
+    Event.hasOne(models.Repo, {
+      foreignKey: 'event_id',
+      onDelete: 'CASCADE',
+      as: 'repo',
+    });
+  };
   return Event;
 };

@@ -2,6 +2,7 @@ import { BuildOptions, Model } from 'sequelize';
 
 export interface IActor {
   id: number;
+  event_id: number;
   login: string;
   avatar_url: string;
   createdAt?: Date;

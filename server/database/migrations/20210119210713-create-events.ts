@@ -10,26 +10,6 @@ module.exports = {
       type: {
         type: Sequelize.STRING,
       },
-      actor_id: {
-        type: Sequelize.BIGINT,
-        allowNull: false,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'Actors',
-          key: 'id',
-          as: 'actor_id',
-        },
-      },
-      repo_id: {
-        type: Sequelize.BIGINT,
-        allowNull: false,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'Repos',
-          key: 'id',
-          as: 'repo_id',
-        },
-      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,
