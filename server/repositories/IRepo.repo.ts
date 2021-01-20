@@ -2,7 +2,6 @@ import { BuildOptions, Model } from 'sequelize';
 
 export interface IRepo {
   id: number;
-  event_id: number;
   name: string;
   url: string;
   createdAt: Date;

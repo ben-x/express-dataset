@@ -14,6 +14,14 @@ export default (sequelize: Sequelize): IEventRepository => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      actor_id: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+      },
+      repo_id: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+      },
       created_at: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -33,13 +41,13 @@ export default (sequelize: Sequelize): IEventRepository => {
     {},
   );
   Event.associate = function (models: IEventModel | any) {
-    Event.hasOne(models.Actor, {
-      foreignKey: 'event_id',
+    Event.belongsTo(models.Actor, {
+      foreignKey: 'actor_id',
       onDelete: 'CASCADE',
       as: 'actor',
     });
-    Event.hasOne(models.Repo, {
-      foreignKey: 'event_id',
+    Event.belongsTo(models.Repo, {
+      foreignKey: 'repo_id',
       onDelete: 'CASCADE',
       as: 'repo',
     });

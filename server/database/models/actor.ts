@@ -10,10 +10,7 @@ export default (sequelize: Sequelize): IActorRepository => {
         primaryKey: true,
         allowNull: false,
       },
-      event_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
+
       login: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -35,12 +32,6 @@ export default (sequelize: Sequelize): IActorRepository => {
     },
     {},
   );
-  Actor.associate = function (models: IActorModel | any) {
-    Actor.belongsTo(models.Event, {
-      foreignKey: 'event_id',
-      as: 'actor',
-      onDelete: 'CASCADE',
-    });
-  };
+  Actor.associate = function (_: IActorModel | any) {};
   return Actor;
 };
