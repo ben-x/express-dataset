@@ -50,4 +50,41 @@ export default class EventServices implements Required<EventServices> {
       return makeResponse(null, HttpStatusCode.INTERNAL_ERROR, error.message);
     }
   };
+  /**
+   * @author Akinlua
+   * @method getEventServiceAsync
+   * @desc Feature will get event
+   * @returns {object} BaseResponse
+   */
+  getAllEventServiceAsync = async (): Promise<BaseResponse<IEventDTO[] | null>> => {
+    try {
+      let events = ((await Event.findAll({
+        include: [
+          { model: Actor, as: 'actor' },
+          { model: Repo, as: 'repo' },
+        ],
+        order: [['id', 'ASC']],
+      })) as unknown) as IEventDTO[];
+      events = events.map(
+        ({ id, type, actor, repo, created_at }): IEventDTO => ({
+          id,
+          type,
+          actor: {
+            id: actor.id,
+            login: actor.login,
+            avatar_url: actor.avatar_url,
+          },
+          repo: {
+            id: repo.id,
+            name: repo.name,
+            url: repo.url,
+          },
+          created_at,
+        }),
+      );
+      return makeResponse(events);
+    } catch (error) {
+      return makeResponse(null, HttpStatusCode.INTERNAL_ERROR, error.message);
+    }
+  };
 }

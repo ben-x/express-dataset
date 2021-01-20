@@ -17,4 +17,16 @@ export class EventController extends EventServices {
     const data = await this.addEventServiceAsync(req.body);
     return res.status(data.statusCode).json(data);
   };
+  /**
+   * @author Akinlua
+   * @method getAllEventControllerAsync
+   * @desc Feature add event
+   * @param {object} req Request object
+   * @param {object} res Response object
+   * @returns {object} Json data
+   */
+  protected getAllEventControllerAsync = async (_: Request, res: Response): Promise<any> => {
+    const data = await this.getAllEventServiceAsync();
+    return res.status(data.statusCode).json(data);
+  };
 }

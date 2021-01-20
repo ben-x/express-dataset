@@ -7,6 +7,16 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.BIGINT,
       },
+      event_id: {
+        type: Sequelize.BIGINT,
+        allowNull: false,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Events',
+          key: 'id',
+          as: 'event_id',
+        },
+      },
       name: {
         type: Sequelize.STRING,
       },

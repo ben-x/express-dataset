@@ -12,6 +12,7 @@ class EventRoutes extends EventController {
 
   private routes = () => {
     this.router.post('/', this.addEventControllerAsync);
+    this.router.get('/', this.getAllEventControllerAsync);
   };
 }
 export default new EventRoutes();

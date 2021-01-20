@@ -10,6 +10,10 @@ export default (sequelize: Sequelize): IRepoRepository => {
         primaryKey: true,
         allowNull: false,
       },
+      event_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -32,9 +36,10 @@ export default (sequelize: Sequelize): IRepoRepository => {
     {},
   );
   Repo.associate = function (models: IRepoModel | any) {
-    Repo.hasMany(models.Event, {
-      foreignKey: 'repo_id',
+    Repo.belongsTo(models.Event, {
+      foreignKey: 'event_id',
       as: 'repo',
+      onDelete: 'CASCADE',
     });
   };
   return Repo;

@@ -5,8 +5,8 @@ import { IRepoDTO } from './IRepo.repo';
 export interface IEvent {
   id: number;
   type: string;
-  actor_id: number;
   repo_id: number;
+  actor_id: number;
   created_at: Date;
   createdAt: Date;
   updatedAt: Date;
