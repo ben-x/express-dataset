@@ -14,6 +14,14 @@ export default (sequelize: Sequelize): IEventRepository => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      actor_id: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+      },
+      repo_id: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+      },
       created_at: {
         type: DataTypes.DATE,
         allowNull: false,
