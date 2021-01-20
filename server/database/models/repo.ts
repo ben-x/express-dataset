@@ -10,10 +10,7 @@ export default (sequelize: Sequelize): IRepoRepository => {
         primaryKey: true,
         allowNull: false,
       },
-      event_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
+
       name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -35,12 +32,12 @@ export default (sequelize: Sequelize): IRepoRepository => {
     },
     {},
   );
-  Repo.associate = function (models: IRepoModel | any) {
-    Repo.belongsTo(models.Event, {
-      foreignKey: 'event_id',
-      as: 'repo',
-      onDelete: 'CASCADE',
-    });
+  Repo.associate = function (_: IRepoModel | any) {
+    // Repo.belongsTo(models.Event, {
+    //   foreignKey: 'event_id',
+    //   as: 'repo',
+    //   onDelete: 'CASCADE',
+    // });
   };
   return Repo;
 };

@@ -36,10 +36,12 @@ export default (sequelize: Sequelize): IEventRepository => {
     Event.belongsTo(models.Actor, {
       foreignKey: 'actor_id',
       onDelete: 'CASCADE',
+      as: 'actor',
     });
     Event.belongsTo(models.Repo, {
       foreignKey: 'repo_id',
       onDelete: 'CASCADE',
+      as: 'repo',
     });
   };
   return Event;
