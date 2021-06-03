@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     var events = db('events.db');
     events.find({}).sort({ _id: 1 }).exec(function (error, docs) {
         if (error) {
-            console.log(error)
+
             return res.status(500).send({ status: 500 });
         }
         res.status(200).send(docs)
@@ -41,8 +41,16 @@ router.post('/', (req, res) => {
         }
         return res.status(201).send({ status: 201 });
     });
+})
 
-
+router.delete('/', (req, res) => {
+    var events = db('events.db');
+    events.remove({}, { multi: true }, function (error, numRemoved) {
+        if (error) {
+            return res.status(500).send({ status: 500 });
+        }
+        return res.status(200).send({ status: 200 });
+    });
 })
 
 
