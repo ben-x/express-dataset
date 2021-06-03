@@ -4,6 +4,16 @@ var moment = require('moment');
 var db = require('../data-source/db')
 // Routes related to event
 
+router.get('/', (req, res) => {
+    var events = db('events.db');
+    events.find({}).sort({ _id: 1 }).exec(function (error, docs) {
+        if (error) {
+            console.log(error)
+            return res.status(500).send({ status: 500 });
+        }
+        res.status(200).send(docs)
+    });
+})
 router.post('/', (req, res) => {
     //let today = moment().format('YYYY-mm-DD hh:mm:ss')
     let body = req.body
