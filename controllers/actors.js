@@ -18,7 +18,7 @@ var groupByOccurence = (obj) => {
 			, new Map(obj.map(o =>
 				[o.actor.id, Object.assign({}, o, { count: 0 })]
 			))), ([k, o]) => o
-	).sort((a, b) => b.count - a.count)
+	).sort((a, b) => (b.count - a.count || new Date(b.created_at) - new Date(a.created_at)) || a.actor.login.toLowerCase().localeCompare(b.actor.login.toLowerCase()))
 		.map(o => o.actor);
 	return result;
 }
