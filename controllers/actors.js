@@ -57,14 +57,21 @@ var getStreak = (req, res) => {
 	try {
 		var events = db('events.db');
 		events.find({}, { _id: 0 }, function (err, docs) {
-			res.status(200).send(groupByStreaks(docs))
+			let temp = groupByStreaksDate(docs)
+			let a = calculateStreaks(temp)
+			r = a.sort((a, b) => parseInt(b.ss) - parseInt(a.ss) || new Date(b.streaks[b.streaks.length - 1]) - new Date(a.streaks[a.streaks.length - 1]) || a.actor.login.toLowerCase().localeCompare(b.actor.login.toLowerCase()))
+			let main = []
+			r.map(a => {
+				main.push(a.actor)
+			})
+			res.status(200).send(main)
 		});
 	} catch (error) {
 		res.status(500).send({ error })
 	}
 };
 
-var groupByStreaks = (obj) => {
+var groupByStreaksDate = (obj) => {
 	const res = Array.from(
 		obj.reduce((map, item) =>
 			(map.get(item.actor.id).streaks.push(item.created_at), map)
@@ -79,6 +86,28 @@ var groupByStreaks = (obj) => {
 		arr.push(o)
 	})
 	return arr;
+}
+
+var calculateStreaks = (docs) => {
+	docs.forEach(e => {
+		e.ss = docalculate(e, e)
+
+	});
+	return docs
+}
+
+var docalculate = (el, el1) => {
+	let count = 0;
+	let i = 1;
+	el.streaks.forEach(q => {
+		if (moment(q).startOf('day').diff(moment(el1.streaks[i]).startOf('day') || q, 'days') == 1) {
+
+			count++
+			console.log(el.actor.login, q, el1.streaks[i], count)
+		}
+		i++
+	})
+	return count;
 }
 
 
