@@ -1,6 +1,6 @@
 var db = require('../data-source/db')
+var moment = require('moment');
 var getAllActors = (req, res) => {
-	let test = [];
 	try {
 		var events = db('events.db');
 		events.find({}, { _id: 0 }, function (err, docs) {
@@ -12,7 +12,7 @@ var getAllActors = (req, res) => {
 };
 
 var groupByOccurence = (obj) => {
-	const result = Array.from(
+	const res = Array.from(
 		obj.reduce((map, item) =>
 			(map.get(item.actor.id).count++, map)
 			, new Map(obj.map(o =>
@@ -20,7 +20,7 @@ var groupByOccurence = (obj) => {
 			))), ([k, o]) => o
 	).sort((a, b) => (b.count - a.count || new Date(b.created_at) - new Date(a.created_at)) || a.actor.login.toLowerCase().localeCompare(b.actor.login.toLowerCase()))
 		.map(o => o.actor);
-	return result;
+	return res;
 }
 
 var updateActor = (req, res) => {
@@ -54,8 +54,35 @@ var updateActor = (req, res) => {
 };
 
 var getStreak = (req, res) => {
-	res.status(200).send({})
+	try {
+		var events = db('events.db');
+		events.find({}, { _id: 0 }, function (err, docs) {
+			res.status(200).send(groupByStreaks(docs))
+		});
+	} catch (error) {
+		res.status(500).send({ error })
+	}
 };
+
+var groupByStreaks = (obj) => {
+	const res = Array.from(
+		obj.reduce((map, item) =>
+			(map.get(item.actor.id).streaks.push(item.created_at), map)
+			, new Map(obj.map(o =>
+				[o.actor.id, Object.assign({}, o, { streaks: [] })]
+			))), ([k, o]) => o
+	).sort((a, b) => (b.streaks.length - a.streaks.length))
+		.map(o => o);
+	let arr = []
+	res.map(o => {
+		o.streaks.sort((a, b) => new Date(b) - new Date(a))
+		arr.push(o)
+	})
+	return arr;
+}
+
+
+
 
 
 module.exports = {
