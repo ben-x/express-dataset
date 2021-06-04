@@ -103,7 +103,6 @@ var docalculate = (el, el1) => {
 		if (moment(q).startOf('day').diff(moment(el1.streaks[i]).startOf('day') || q, 'days') == 1) {
 
 			count++
-			console.log(el.actor.login, q, el1.streaks[i], count)
 		}
 		i++
 	})
