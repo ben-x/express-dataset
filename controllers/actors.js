@@ -59,7 +59,7 @@ var getStreak = (req, res) => {
 		events.find({}, { _id: 0 }, function (err, docs) {
 			let temp = groupByStreaksDate(docs)
 			let a = calculateStreaks(temp)
-			r = a.sort((a, b) => parseInt(b.ss) - parseInt(a.ss) || new Date(b.streaks[b.streaks.length - 1]) - new Date(a.streaks[a.streaks.length - 1]) || a.actor.login.toLowerCase().localeCompare(b.actor.login.toLowerCase()))
+			r = a.sort((a, b) => parseInt(b.ss) - parseInt(a.ss) || new Date(b.streaks[0]) - new Date(a.streaks[0]) || a.actor.login.toLowerCase().localeCompare(b.actor.login.toLowerCase()))
 			let main = []
 			r.map(a => {
 				main.push(a.actor)
