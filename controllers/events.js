@@ -4,7 +4,7 @@ var getAllEvents = (req, res) => {
 	events.find({}).sort({ _id: 1 }).exec(function (error, docs) {
 		if (error) {
 
-			return res.status(500).send({ status: 500 });
+			return res.status(500).send(error);
 		}
 		res.status(200).send(docs)
 	});
@@ -32,15 +32,27 @@ var addEvent = (req, res) => {
 	events.insert(eventObject, (error, newDoc) => {
 		if (error) {
 			if (error.message.includes("it violates the unique constraint")) {
-				return res.status(400).send({ status: 400 });
+				return res.status(400).send(error);
 			}
 		}
-		return res.status(201).send({ status: 201 });
+		return res.status(201).send(newDoc);
 	});
 };
 
 
-var getByActor = () => {
+var getByActor = (req, res) => {
+	let actor_id = req.params.actorID;
+	var events = db('events.db');
+	events.find({
+		"actor.id": parseInt(BigInt(actor_id))
+	}).sort({ _id: 1 }).exec(function (error, docs) {
+		if (error) {
+			return res.status(500).send(error);
+		}
+		if (docs.length == 0)
+			return res.status(404).send(docs)
+		return res.status(200).send(docs)
+	});
 
 };
 
