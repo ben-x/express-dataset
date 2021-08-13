@@ -8,3 +8,4 @@ var router = express.Router();
 router.delete("/", controller.eraseEvents)
 
 module.exports = router;
+
